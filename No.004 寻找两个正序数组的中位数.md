@@ -46,6 +46,7 @@
 *  内存消耗略多，考虑更好方案
 
 ```
+// 数组长度固定，可以计算出中位数的最终位置，遍历两个数组，获取到对应位置的数字即可，时间复杂度O(m+n)
 public static void main(String[] args) {
     int[] nums1 = {2};
     int[] nums2 = {1, 3};
