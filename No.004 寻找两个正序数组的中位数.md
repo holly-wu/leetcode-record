@@ -96,6 +96,68 @@ public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
 }
 ```
 
+### 结果代码  2
+*  运行时间：3 ms
+*  内存消耗：39.7 MB
+*  二分查找，第k个数字
+
+```
+// 二分查找，时间复杂度O(log(m+n))
+public static void main(String[] args) {
+        int[] nums1 = {2, 3, 5, 6};
+        int[] nums2 = {1, 4};
+        double result = findMedianSortedArrays(nums1, nums2);
+        System.out.println(result);
+    }
+
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        int length1 = nums1.length;
+        int length2 = nums2.length;
+        int fullLength = length1 + length2;
+        if (fullLength % 2 == 1) {
+            int midIndex = fullLength / 2;
+            double median = getKthElement(nums1, nums2, midIndex + 1);
+            return median;
+        } else {
+            int midIndex1 = fullLength / 2 - 1, midIndex2 = fullLength / 2;
+            double median = (getKthElement(nums1, nums2, midIndex1 + 1) + getKthElement(nums1, nums2, midIndex2 + 1)) / 2.0;
+            return median;
+        }
+    }
+
+    public static int getKthElement(int[] nums1, int[] nums2, int k) {
+        int i = 0;
+        int j = 0;
+        while (true) {
+            // 当k=1时先判断i或j是不是已经超过了数组索引
+            if (i == nums1.length) {
+                return nums2[j + k - 1];
+            } else if (j == nums2.length) {
+                return nums1[i + k - 1];
+            }
+            // 如果k=1，直接比较第一个数字的大小即可
+            if (k == 1) {
+                return Math.min(nums1[i], nums2[j]);
+            }
+            int position = k / 2;
+            // 如果当前索引加上k超过了数组长度，那么将position定义为剩余的数组长度
+            if (i + position > nums1.length || j + position > nums2.length) {
+                position = Math.min(nums1.length - i, nums2.length - j);
+            }
+            // 对应position数字的索引
+            int m = i + position - 1;
+            int n = j + position - 1;
+            // 将数组索引定位到对应数字右边
+            if (nums1[m] >= nums2[n]) {
+                j = n + 1;
+            } else {
+                i = m + 1;
+            }
+            k = k - position;
+        }
+    }
+```
+
 ### English  
 * Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
 * Follow up: The overall run time complexity should be O(log (m+n)).
