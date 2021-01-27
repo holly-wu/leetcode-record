@@ -139,12 +139,13 @@ public static void main(String[] args) {
             if (k == 1) {
                 return Math.min(nums1[i], nums2[j]);
             }
+            // position从1开始
             int position = k / 2;
             // 如果当前索引加上k超过了数组长度，那么将position定义为剩余的数组长度
             if (i + position > nums1.length || j + position > nums2.length) {
                 position = Math.min(nums1.length - i, nums2.length - j);
             }
-            // 对应position数字的索引
+            // 对应position数字的索引，从0开始
             int m = i + position - 1;
             int n = j + position - 1;
             // 将数组索引定位到对应数字右边
